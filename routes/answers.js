@@ -22,18 +22,18 @@ mongodb.MongoClient.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popular
 var ANSWERS_COLLECTION = "answers";
 
 /* GET answers listing. */
-router.get('/', function(req, res, next) {
+/*router.get('/', function(req, res, next) {
   res.send('respond with a answer');
 });
-
+*/
 
 /*  "/answers"
  *    GET: finds all answers
  *    POST: creates a new answer
  */
 
-router.get("/answers", function(req, res) {
-  db.collection(m).find({}).toArray(function(err, docs) {
+router.get("/", function(req, res) {
+  db.collection(ANSWERS_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get answers.");
     } else {
@@ -42,7 +42,7 @@ router.get("/answers", function(req, res) {
   });
 });
 
-router.post("/answers", function(req, res) {
+router.post("/", function(req, res) {
   var newAnswer = req.body;
   newAnswer.createDate = new Date();
 
@@ -65,7 +65,7 @@ router.post("/answers", function(req, res) {
  *    DELETE: deletes answer by id
  */
 
-router.get("/answers/:id", function(req, res) {
+router.get("/:id", function(req, res) {
   db.collection(ANSWERS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to get answer");

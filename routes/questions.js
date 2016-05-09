@@ -1,17 +1,40 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET questions listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a question');
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
+
+// Create a database variable outside of the database connection callback to reuse the connection pool in your app.
+var db;
+
+// Connect to the database before starting the application server.
+mongodb.MongoClient.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popularanswers', function (err, database) {
+  if (err) {
+    console.log(err);
+    process.exit(1);
+  }
+
+  // Save database object from the callback for reuse.
+  db = database;
+  console.log("Database connection ready");
+
 });
 
+var QUESTIONS_COLLECTION = "questions";
+
+
+
+/* GET questions listing. */
+/*router.get('/', function(req, res, next) {
+  res.send('respond with a question');
+});
+*/
 /*  "/questions"
  *    GET: finds all questions
  *    POST: creates a new question
  */
 
-router.get("/questions", function(req, res) {
+router.get("/", function(req, res) {
   db.collection(QUESTIONS_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get questions.");
@@ -21,7 +44,7 @@ router.get("/questions", function(req, res) {
   });
 });
 
-router.post("/questions", function(req, res) {
+router.post("/", function(req, res) {
   var newQuestion = req.body;
   newQuestion.createDate = new Date();
 
@@ -38,13 +61,13 @@ router.post("/questions", function(req, res) {
   });
 });
 
-/*  "/questions/:id"
+/*  "/:id"
  *    GET: find question by id
  *    PUT: update question by id
  *    DELETE: deletes question by id
  */
 
-router.get("/questions/:id", function(req, res) {
+router.get("/:id", function(req, res) {
   db.collection(QUESTIONS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to get question");
@@ -54,7 +77,7 @@ router.get("/questions/:id", function(req, res) {
   });
 });
 
-router.put("/questions/:id", function(req, res) {
+router.put("/:id", function(req, res) {
   var updateDoc = req.body;
   delete updateDoc._id;
 
@@ -67,7 +90,7 @@ router.put("/questions/:id", function(req, res) {
   });
 });
 
-router.delete("/questions/:id", function(req, res) {
+router.delete("/:id", function(req, res) {
   db.collection(QUESTIONS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
     if (err) {
       handleError(res, err.message, "Failed to delete question");

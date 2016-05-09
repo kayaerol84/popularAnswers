@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+/*router.get('/', function(req, res, next) {
   res.send('respond with a user');
-});
+}); */
 
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
@@ -16,7 +16,7 @@ function handleError(res, reason, message, code) {
  *    POST: creates a new user
  */
 
-router.get("/users", function(req, res) {
+router.get("/", function(req, res) {
   db.collection(USERS_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get users.");
@@ -26,7 +26,7 @@ router.get("/users", function(req, res) {
   });
 });
 
-router.post("/users", function(req, res) {
+router.post("/", function(req, res) {
   var newUser = req.body;
   newUser.createDate = new Date();
 
@@ -49,7 +49,7 @@ router.post("/users", function(req, res) {
  *    DELETE: deletes user by id
  */
 
-router.get("/users/:id", function(req, res) {
+router.get("/:id", function(req, res) {
   db.collection(USERS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to get user");
@@ -59,7 +59,7 @@ router.get("/users/:id", function(req, res) {
   });
 });
 
-router.put("/users/:id", function(req, res) {
+router.put("/:id", function(req, res) {
   var updateDoc = req.body;
   delete updateDoc._id;
 
@@ -72,7 +72,7 @@ router.put("/users/:id", function(req, res) {
   });
 });
 
-router.delete("/users/:id", function(req, res) {
+router.delete("/:id", function(req, res) {
   db.collection(USERS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
     if (err) {
       handleError(res, err.message, "Failed to delete user");
