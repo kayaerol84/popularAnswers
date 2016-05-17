@@ -1,14 +1,13 @@
 var express = require('express');
 var router = express.Router();
-
-	
-
-/* GET contacts listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a contact');
-});
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
 
 
+// Create a database variable outside of the database connection callback to reuse the connection pool in your app.
+var db = require("./database").db();
+
+var CONTACTS_COLLECTION = "contacts";
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);
@@ -19,7 +18,7 @@ function handleError(res, reason, message, code) {
  *    POST: creates a new contact
  */
 
-router.get("/contacts", function(req, res) {
+router.get("/", function(req, res) {
   db.collection(CONTACTS_COLLECTION).find({}).toArray(function(err, docs) {
     if (err) {
       handleError(res, err.message, "Failed to get contacts.");
@@ -29,7 +28,7 @@ router.get("/contacts", function(req, res) {
   });
 });
 
-router.post("/contacts", function(req, res) {
+router.post("/", function(req, res) {
   var newContact = req.body;
   newContact.createDate = new Date();
 
@@ -52,7 +51,7 @@ router.post("/contacts", function(req, res) {
  *    DELETE: deletes contact by id
  */
 
-router.get("/contacts/:id", function(req, res) {
+router.get("/:id", function(req, res) {
   db.collection(CONTACTS_COLLECTION).findOne({ _id: new ObjectID(req.params.id) }, function(err, doc) {
     if (err) {
       handleError(res, err.message, "Failed to get contact");
@@ -62,7 +61,7 @@ router.get("/contacts/:id", function(req, res) {
   });
 });
 
-router.put("/contacts/:id", function(req, res) {
+router.put("/:id", function(req, res) {
   var updateDoc = req.body;
   delete updateDoc._id;
 
@@ -75,7 +74,7 @@ router.put("/contacts/:id", function(req, res) {
   });
 });
 
-router.delete("/contacts/:id", function(req, res) {
+router.delete("/:id", function(req, res) {
   db.collection(CONTACTS_COLLECTION).deleteOne({_id: new ObjectID(req.params.id)}, function(err, result) {
     if (err) {
       handleError(res, err.message, "Failed to delete contact");

@@ -1,15 +1,11 @@
-var mongodb = require('mongodb');
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popularanswers');
-/*
+var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popularanswers', function (err, database) {
+exports.db = function() {mongodb.MongoClient.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popularanswers', function (err, database) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -21,4 +17,4 @@ mongodb.MongoClient.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popular
 
 });
 
-exports.db = db; */
+};

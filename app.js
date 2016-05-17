@@ -12,6 +12,9 @@ var questions = require('./routes/questions');
 var answers = require('./routes/answers');
 var contacts = require('./routes/contacts');
 
+var db = require('./config/db'),
+blob = require('./config/blobs');
+
 var app = express();
 
 // view engine setup

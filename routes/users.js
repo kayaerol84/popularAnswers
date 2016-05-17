@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var mongodb = require("mongodb");
+var ObjectID = mongodb.ObjectID;
 
-/* GET users listing. */
-/*router.get('/', function(req, res, next) {
-  res.send('respond with a user');
-}); */
-
+// Create a database variable outside of the database connection callback to reuse the connection pool in your app.
+var db = require("./database.js");	
+var USERS_COLLECTION = "users";
 // Generic error handler used by all endpoints.
 function handleError(res, reason, message, code) {
   console.log("ERROR: " + reason);

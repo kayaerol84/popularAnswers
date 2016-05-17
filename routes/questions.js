@@ -1,14 +1,15 @@
 var express = require('express');
 var router = express.Router();
-
 var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
-var db;
+//var db = require("./database.js");
+var db = require("./database").db();
+
 
 // Connect to the database before starting the application server.
-mongodb.MongoClient.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popularanswers', function (err, database) {
+/*mongodb.MongoClient.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popularanswers', function (err, database) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -19,16 +20,9 @@ mongodb.MongoClient.connect('mongodb://erol:1234@ds017582.mlab.com:17582/popular
   console.log("Database connection ready");
 
 });
-
+*/
 var QUESTIONS_COLLECTION = "questions";
 
-
-
-/* GET questions listing. */
-/*router.get('/', function(req, res, next) {
-  res.send('respond with a question');
-});
-*/
 /*  "/questions"
  *    GET: finds all questions
  *    POST: creates a new question

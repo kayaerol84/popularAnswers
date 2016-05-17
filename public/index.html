@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	<script src="//www.google-analytics.com/analytics.js" async=""></script>
+	<script type="text/javascript" src="javascripts/angular.min.js"></script> 
+	<script type="text/javascript" src="javascripts/app.js"></script>
+	<!--<script type="text/javascript" src="js/script.js"></script>-->
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css"/>  
+	<link rel="stylesheet" type="text/css" href="stylesheets/styleMenu.css"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+	<script type="text/javascript">	</script>
+</head>
+<body>
+
+	<!--
+    <div>
+
+        <p>Input something in the input box:</p>
+        <p>Name: <input type="text" ng-model="name"></p>
+        <p ng-bind="name"></p>
+
+    </div> -->
+	<div id="mainMenu">
+		<!-- The navigation menu will get the value of the "active" variable as a class.
+			 The $event.preventDefault() stops the page from jumping when a link is clicked. -->
+
+		<nav class="{{active}}" ng-click="$event.preventDefault()">
+
+			<!-- When a link in the menu is clicked, we set the active variable -->
+
+			<a href="#" class="home" ng-click="active='home'">Home</a>
+			<a href="#" class="public" ng-click="active='public'">Public</a>
+			<a href="#" class="following" ng-click="active='following'">Followings</a>
+			<a href="#" class="friends" ng-click="active='friends'">Friends</a>
+		</nav>
+
+		<!-- ng-show will show an element if the value in the quotes is truthful,
+			 while ng-hide does the opposite. Because the active variable is not set
+			 initially, this will cause the first paragraph to be visible. -->
+
+		<p ng-hide="active">Please click a menu item</p>
+		<p ng-show="active">You chose <b>{{active}}</b></p>
+	</div>
+
+	<form ng-controller="OrderFormController">
+	
+		<h1>Services</h1>
+
+		<ul>
+			<!-- Loop through the services array, assign a click handler, and set or
+				remove the "active" css class if needed -->
+			<li ng-repeat="service in services" ng-click="toggleActive(service)" ng-class="{active:service.active}">
+				<!-- Notice the use of the currency filter, it will format the price -->
+				{{service.name}} <span>{{service.price | currency}}</span>
+			</li>
+		</ul>
+
+		<div class="total">
+			<!-- Calculate the total price of all chosen services. Format it as currency. -->
+			Total: <span>{{total() | currency}}</span>
+		</div>
+	</form> 
+	
+	<div ng-controller="InstantSearchController">
+
+		<div class="bar">
+			<!-- Create a binding between the searchString model and the text field -->
+			<input type="text" ng-model="searchString" placeholder="Enter your search terms" />
+		</div>
+
+		<ul>
+			<!-- Render a li element for every entry in the items array. Notice
+				 the custom search filter "searchFor". It takes the value of the
+				 searchString model as an argument.
+			 -->
+			<li ng-repeat="i in items | searchFor:searchString">
+				<a href="{{i.url}}"><img ng-src="{{i.image}}" /></a>
+				<p>{{i.title}}</p>
+			</li>
+		</ul>
+	</div>
+	
+	<div ng-controller="CarController">
+		
+		<p>{{ description }}</p>
+		<ui ng-repeat="car in cars">
+			<li> {{ car.make}}</li>
+			<li> {{ car.model}}</li>
+		</ui>
+		
+		
+	</div>
+	
+</body>
+
+</html>
