@@ -84,11 +84,11 @@ module.exports = function(app) {
 
     // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
     indexRouter.get('/*', function(req, res) {
-        res.json({
-            message: 'Welcome to PopularAnswers!'
-        });
+        //res.json({message: 'Welcome to PopularAnswers!'});
+        res.sendFile(__dirname + '/public/index.html');
     });
 
+    app.use(express.static(__dirname + '/public'));
     app.use('/api', router);
     app.use('/', indexRouter);
 }

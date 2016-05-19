@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html ng-app="popAnsApp">
 <head>
+	
+	<title>Demo Popular Answers</title>
 	<script src="//www.google-analytics.com/analytics.js" async=""></script>
-	<script type="text/javascript" src="javascripts/angular.min.js"></script> 
+	<script type="text/javascript" src="lib/angular/angular.min.js"></script> 
 	<script type="text/javascript" src="javascripts/app.js"></script>
+	<script type="text/javascript" src="services/questionService.js"></script>
+	<script type="text/javascript" src="controllers/questionController.js"></script>
 	<!--<script type="text/javascript" src="js/script.js"></script>-->
 	<link rel="stylesheet" type="text/css" href="stylesheets/style.css"/>  
 	<link rel="stylesheet" type="text/css" href="stylesheets/styleMenu.css"/>
+	<link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap.min.css"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
-	<script type="text/javascript">	</script>
+	
 </head>
-<body>
+<body ng-controller="questionController as question">
 
 	<!--
     <div>
